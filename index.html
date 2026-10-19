@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safety Days — Жарақатсыз күндер</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   ТҮСТЕР (оранжевый + ақ)
+   ========================================================= */
+:root{
+  --orange:#F26A10;
+  --orange-dark:#C9540A;
+  --orange-soft:#FFF1E6;
+  --orange-line:#FFD9BF;
+  --white:#FFFFFF;
+  --bg:#FFFAF5;
+  --ink:#2A1A0E;
+  --muted:#7A6555;
+  --gold:#E8A317; --silver:#9AA4AE; --bronze:#B8733A;
+  --radius:18px;
+  --shadow:0 6px 24px rgba(242,106,16,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1;width:100%}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* ---------- Header ---------- */
+header{background:var(--orange);color:var(--white);position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(0,0,0,.12)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:900;letter-spacing:.5px;font-size:20px}
+.brand-badge{width:42px;height:42px;border-radius:12px;background:var(--white);display:grid;place-items:center}
+.brand small{display:block;font-weight:500;font-size:11px;letter-spacing:.3px;opacity:.9}
+nav{display:flex;gap:4px}
+nav a{text-decoration:none;font-weight:600;font-size:14px;padding:9px 14px;border-radius:10px;transition:background .2s}
+nav a:hover{background:rgba(255,255,255,.18)}
+nav a.active{background:var(--white);color:var(--orange)}
+.burger{display:none;background:none;border:0;color:#fff;cursor:pointer;padding:6px}
+@media(max-width:860px){
+  .burger{display:block}
+  nav{position:absolute;top:68px;left:0;right:0;background:var(--orange-dark);flex-direction:column;padding:8px 16px 14px;display:none}
+  nav.open{display:flex}
+}
+
+/* ---------- Common ---------- */
+.page{display:none;padding:28px 0 60px}
+.page.show{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1.title{font-size:clamp(24px,4vw,34px);font-weight:900;color:var(--ink)}
+.subtitle{color:var(--muted);margin-top:6px;font-size:15px}
+.section-head{margin-bottom:22px}
+.card{background:var(--white);border:1px solid var(--orange-line);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* ---------- Rating dashboard ---------- */
+.dash{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;align-items:start}
+@media(max-width:960px){.dash{grid-template-columns:1fr}}
+.league{overflow:hidden}
+.league-head{background:linear-gradient(120deg,var(--orange) 0%,#FF8A3D 100%);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.league-head h2{font-size:18px;font-weight:900;display:flex;align-items:center;gap:10px;letter-spacing:.2px}
+.league-head h2 small{display:block;font-size:12px;font-weight:600;opacity:.9;letter-spacing:0}
+.chip{background:rgba(255,255,255,.2);color:#fff;font-weight:700;font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.35)}
+.lrow{display:grid;grid-template-columns:34px minmax(0,1fr) 92px;gap:14px;align-items:center;padding:10px 20px;border-bottom:1px solid #FBEADC;transition:background .2s}
+.lrow:last-child{border-bottom:0}
+.lrow:hover{background:#FFF8F2}
+.lrow.top{background:linear-gradient(90deg,#FFF4EA,#fff 70%)}
+.rank{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:14px;background:#F5EDE6;color:var(--ink)}
+.rank.r1{background:linear-gradient(135deg,#F7C548,var(--gold));color:#fff;box-shadow:0 3px 10px rgba(232,163,23,.4)}
+.rank.r2{background:linear-gradient(135deg,#C3CAD1,var(--silver));color:#fff}
+.rank.r3{background:linear-gradient(135deg,#D9925A,var(--bronze));color:#fff}
+.lname{display:flex;align-items:baseline;gap:8px;min-width:0}
+.lname b{font-weight:800;font-size:15px;white-space:nowrap}
+.lname small{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.progress{height:6px;background:#F7E7DA;border-radius:999px;overflow:hidden;margin-top:6px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--orange),#FFA35E);border-radius:999px;transition:width 1s ease}
+.dcount{text-align:right;font-weight:900;font-size:22px;color:var(--orange);font-variant-numeric:tabular-nums;line-height:1}
+.dcount small{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-top:3px}
+.lrow.top .dcount{font-size:24px}
+.note{font-size:12px;color:var(--muted);padding:10px 20px;background:#FFFAF5;border-top:1px solid #FBEADC}
+
+/* side column */
+.side{display:grid;gap:14px}
+.board{background:#1F140C;border-radius:var(--radius);padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;box-shadow:var(--shadow)}
+.board .cap{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;color:#FFB98A;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+.board .cap i{width:8px;height:8px;border-radius:50%;background:#7CE07C;box-shadow:0 0 8px #7CE07C;animation:blink 2s infinite}
+@keyframes blink{50%{opacity:.35}}
+.board div.cell{background:#2B1C11;border-radius:12px;padding:12px 8px;text-align:center}
+.board span{display:block;font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:#FFB98A;font-weight:700}
+.board b{display:block;font-size:26px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;line-height:1.2}
+.board b.g{color:#7CE07C;font-size:32px}
+.board em{font-style:normal;font-size:11px;color:#d9c6b8}
+.goalcard{padding:18px;display:flex;gap:16px;align-items:center}
+.ring{flex:0 0 96px;height:96px;border-radius:50%;display:grid;place-items:center;position:relative}
+.ring::before{content:"";position:absolute;inset:9px;background:#fff;border-radius:50%}
+.ring b{position:relative;font-size:20px;font-weight:900;color:var(--orange)}
+.goalcard h3{font-size:15px;font-weight:800}
+.goalcard p{font-size:13px;color:var(--muted);margin-top:4px}
+.minis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mini{padding:14px 16px}
+.mini span{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.mini b{display:block;font-size:22px;font-weight:900;color:var(--orange);font-variant-numeric:tabular-nums}
+.quote{background:var(--orange);color:#fff;border-radius:var(--radius);padding:16px 18px;font-size:14px;font-weight:600;line-height:1.45}
+.quote small{display:block;margin-top:8px;font-size:12px;opacity:.85;font-weight:500}
+.today{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:12px}
+@media(max-width:520px){
+  .lrow{padding:10px 14px;gap:10px;grid-template-columns:30px minmax(0,1fr) 76px}
+  .lname small{display:none}
+  .dcount{font-size:19px}.lrow.top .dcount{font-size:21px}
+}
+
+/* ---------- Memo ---------- */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.toolbar input,.toolbar select{font:inherit;padding:11px 14px;border:1.5px solid var(--orange-line);border-radius:12px;background:#fff;min-width:0}
+.toolbar input{flex:1;min-width:200px}
+.toolbar input:focus,.toolbar select:focus{outline:none;border-color:var(--orange)}
+.memos{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.memo{padding:20px;display:flex;flex-direction:column;gap:10px;position:relative}
+.memo .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.memo .num{font-weight:800;color:var(--orange);font-size:13px}
+.memo .date{font-size:12px;color:var(--muted);font-weight:600}
+.memo h3{font-size:16px;font-weight:800;line-height:1.3}
+.memo p{font-size:14px;color:var(--muted);flex:1}
+.tag{align-self:flex-start;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--orange-soft);color:var(--orange-dark)}
+.memo .new{position:absolute;top:-8px;right:14px;background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.5px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;background:var(--orange);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:10px 16px;border-radius:12px;border:0;cursor:pointer;transition:background .2s}
+.btn:hover{background:var(--orange-dark)}
+.btn.ghost{background:#fff;color:var(--orange);border:1.5px solid var(--orange)}
+.btn.disabled{background:#EADBD0;color:#9b8676;pointer-events:none}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+
+/* ---------- Golden rules ---------- */
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.rule{padding:22px;display:flex;gap:16px;align-items:flex-start}
+.rule .n{flex:0 0 52px;height:52px;border-radius:14px;background:var(--orange);color:#fff;font-weight:900;font-size:24px;display:grid;place-items:center}
+.rule h3{font-size:16px;font-weight:800;margin-bottom:8px}
+.rule ul{padding-left:18px;font-size:14px;color:#4b3828}
+.rule li{margin-bottom:4px}
+.banner{background:var(--orange);color:#fff;border-radius:var(--radius);padding:20px 22px;margin-bottom:22px;font-weight:600}
+.banner b{font-weight:900}
+
+/* ---------- Safety info ---------- */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.info{padding:22px}
+.info .ic{width:46px;height:46px;border-radius:12px;background:var(--orange-soft);display:grid;place-items:center;margin-bottom:12px}
+.info h3{font-size:16px;font-weight:800;margin-bottom:8px}
+.info ul{padding-left:18px;font-size:14px;color:#4b3828}
+.info li{margin-bottom:4px}
+.phones{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:22px}
+.phone{padding:16px 18px;display:flex;align-items:center;gap:14px}
+.phone b{font-size:26px;font-weight:900;color:var(--orange)}
+.phone span{font-size:13px;color:var(--muted);font-weight:600}
+
+footer{background:#fff;border-top:1px solid var(--orange-line);padding:22px 0;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- =====================================================================
+     ⚙️ ДЕРЕКТЕРДІ ӨЗГЕРТЕТІН ЖЕР — тек осы <script> ішін түзетсеңіз болды
+     ===================================================================== -->
+<script>
+/* 1) ЦЕХТАР
+   lastIncident — соңғы оқиға болған күн (ЖЖЖЖ-АА-КК).
+   Жарақатсыз күндер саны осы күннен бастап АВТОМАТТЫ түрде санайды:
+   әр күн өткен сайын +1 қосылады. Егер цехта оқиға болса —
+   тек сол цехтың lastIncident күнін жаңартыңыз, санау 0-ден басталады.
+   record — сол цехтың ең ұзақ рекорды (міндетті емес). */
+const SHOPS = [
+  { name: "ЦЕХ №1",  desc: "Мұнай өндіру цехы",        lastIncident: "2024-09-23" },
+  { name: "ЦЕХ №2",  desc: "Мұнай өндіру цехы",        lastIncident: "2025-01-02" },
+  { name: "ЦЕХ №3",  desc: "Мұнай өндіру цехы",        lastIncident: "2024-08-25" },
+  { name: "ЦЕХ №4",  desc: "Мұнай өндіру цехы",        lastIncident: "2025-08-12" },
+  { name: "ЦЕХ №5",  desc: "Бу өндіру цехы",           lastIncident: "2025-02-16" },
+  { name: "ЦЕХ №6",  desc: "Ұңғымаларды жөндеу цехы",  lastIncident: "2026-03-28" },
+  { name: "ЦЕХ №7",  desc: "Мұнай дайындау цехы",      lastIncident: "2024-11-16" },
+  { name: "ЦЕХ №8",  desc: "Су айдау цехы",            lastIncident: "2025-12-05" },
+  { name: "ЦЕХ №9",  desc: "Көлік цехы",               lastIncident: "2026-06-21" },
+  { name: "ЦЕХ №10", desc: "Энергетика цехы",          lastIncident: "2025-04-27" }
+];
+
+/* 2) ОРТАҚ МАҚСАТ (күн) */
+const GOAL_DAYS = 1000;
+
+/* 3) МЕМО / МЕМОРАНДУМДАР
+   Жаңа мемо қосу: PDF файлын GitHub-тағы "memo" папкасына жүктеп,
+   төмендегі тізімнің ЕҢ БАСЫНА жаңа жол қосыңыз.
+   file — файлдың жолы (мысалы "memo/memo-2026-10.pdf"). Файл жоқ болса "" қалдырыңыз.
+   ⚠️ Төмендегі 3 жазба — ҮЛГІ, нақты құжаттарыңызбен ауыстырыңыз. */
+const MEMOS = [
+  { num: "ҮЛГІ-03", date: "2026-10-10", category: "Оқиға туралы",
+    title: "Үлгі: Жабдықты жөндеу кезіндегі қауіпті жағдай туралы МЕМО",
+    summary: "Мұнда мемоның қысқаша мазмұны жазылады: не болды, себебі, қабылданған шаралар.",
+    file: "" },
+  { num: "ҮЛГІ-02", date: "2026-09-02", category: "Ескерту",
+    title: "Үлгі: Күзгі-қысқы кезеңде көлік жүргізу қауіпсіздігі",
+    summary: "Мұнда мемоның қысқаша мазмұны жазылады.",
+    file: "" },
+  { num: "ҮЛГІ-01", date: "2026-07-15", category: "Меморандум",
+    title: "Үлгі: Ыстық ауа райында жұмыс істеу тәртібі",
+    summary: "Мұнда мемоның қысқаша мазмұны жазылады.",
+    file: "" }
+];
+</script>
+<!-- ===================================================================== -->
+
+<header>
+  <div class="wrap bar">
+    <a href="#rating" class="brand">
+      <span class="brand-badge">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F26A10" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.3-8 11-4.5-1.7-8-6-8-11V5l8-3z"/><path d="M8.5 12l2.5 2.5L16 9.5"/></svg>
+      </span>
+      <span>SAFETY DAYS<small>Бірге — нөл жарақатқа!</small></span>
+    </a>
+    <button class="burger" aria-label="Мәзір" onclick="document.querySelector('nav').classList.toggle('open')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav>
+      <a href="#rating">Рейтинг</a>
+      <a href="#memo">МЕМО</a>
+      <a href="#rules">9 Алтын ереже</a>
+      <a href="#info">ТБ ақпарат</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= РЕЙТИНГ ================= -->
+  <section class="page" id="page-rating">
+    <div class="dash">
+      <div class="card league">
+        <div class="league-head">
+          <h2>🏆 <span>Цехаралық рейтинг лигасы<small>Жарақатсыз өткен күндер саны</small></span></h2>
+          <span class="chip" id="updated"></span>
+        </div>
+        <div id="league"></div>
+        <div class="note">Күндер түн ортасында автоматты түрде +1 қосылады. Оқиға болса, сол цехтың санағы 0-ден басталады.</div>
+      </div>
+
+      <aside class="side">
+        <div class="board">
+          <div class="cap">Табло · көшбасшы <i></i></div>
+          <div class="cell"><span>Цех</span><b id="bLeader">—</b></div>
+          <div class="cell"><span>Жарақатсыз күн</span><b class="g" id="bLeaderNum">0</b></div>
+        </div>
+        <div class="card goalcard">
+          <div class="ring" id="ring"><b id="ringPct">0%</b></div>
+          <div><h3>Мақсат — <span id="bGoal">1000</span> күн</h3><p>Көшбасшыға <b id="sLeft">0</b> күн қалды. Бірге жетеміз!</p></div>
+        </div>
+        <div class="minis">
+          <div class="card mini"><span>Орташа</span><b id="sAvg">0</b></div>
+          <div class="card mini"><span>Цех-күн</span><b id="sSum">0</b></div>
+        </div>
+        <div class="quote">«Мұнай өндіру қаншалықты маңызды болса, адам өмірі мен қауіпсіздігі де соншалықты маңызды!»<small>Күн сайын — есеп · Ай сайын — рейтинг · Жыл соңында — үздік цех марапаты</small></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= МЕМО ================= -->
+  <section class="page" id="page-memo">
+    <div class="section-head">
+      <h1 class="title">МЕМО және меморандумдар</h1>
+      <p class="subtitle">Соңғы шыққан қауіпсіздік мемолары — оқиғалардан сабақ алайық.</p>
+    </div>
+    <div class="toolbar">
+      <input id="mSearch" type="search" placeholder="Іздеу: тақырып, нөмір...">
+      <select id="mCat"><option value="">Барлық санат</option></select>
+      <select id="mYear"><option value="">Барлық жыл</option></select>
+    </div>
+    <div class="memos" id="memos"></div>
+  </section>
+
+  <!-- ================= 9 АЛТЫН ЕРЕЖЕ ================= -->
+  <section class="page" id="page-rules">
+    <div class="section-head">
+      <h1 class="title">ҚазМұнайГаз-дың 9 Алтын ережесі</h1>
+      <p class="subtitle">Барлық қызметкерлер мен мердігерлер үшін міндетті еңбек қауіпсіздігі талаптары.</p>
+    </div>
+    <div class="banner">Мақсатымыз — <b>«ЗИЯНСЫЗ»</b>: адамдарға да, қоршаған ортаға да зиян келтірмей жұмыс істеу. Алтын ережелерді сақтау — өмірді сақтау.</div>
+    <div class="rules" id="rulesList"></div>
+  </section>
+
+  <!-- ================= ТБ АҚПАРАТ ================= -->
+  <section class="page" id="page-info">
+    <div class="section-head">
+      <h1 class="title">Техника қауіпсіздігі бойынша ақпарат</h1>
+      <p class="subtitle">Күнделікті жұмыста есте сақтайтын негізгі ережелер.</p>
+    </div>
+    <div class="phones">
+      <div class="card phone"><b>112</b><span>Бірыңғай құтқару қызметі</span></div>
+      <div class="card phone"><b>101</b><span>Өрт сөндіру қызметі</span></div>
+      <div class="card phone"><b>103</b><span>Жедел медициналық жәрдем</span></div>
+      <div class="card phone"><b>104</b><span>Газ қызметі</span></div>
+    </div>
+    <div class="info-grid" id="infoList"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Safety Days · «Төртеу түгел болса» тобы · Ақтау</span>
+    <span>Қауіпсіздік — барлығымыздың күнделікті назарымызда!</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- Алтын ережелер мәтіні ---------- */
+const RULES = [
+  { t:"Қауіпсіздік үшін жауапкершілік", p:["Әр қызметкер өз қауіпсіздігі мен айналасындағылардың қауіпсіздігі үшін жауап береді","Басшылар — жеке үлгі көрсетеді","Басшылар қауіпсіз жұмысты жоспарлауға, ұйымдастыруға және бақылауға белсенді қатысады"] },
+  { t:"Жұмысқа жарамды болу", p:["Жұмысқа әсер ететін денсаулық мәселелері мен дәрі-дәрмек туралы алдын ала хабарлаңыз","Діріл, шу, қолайсыз ауа райының әсерін шектеңіз, қорғаныс құралдарын қолданыңыз","Алкоголь мен есірткіні қолдануға, сақтауға, таратуға тыйым салынады"] },
+  { t:"Көлікті қауіпсіз жүргізу", p:["Сапар алдында көлікті тексеріңіз","Барлық жолаушылар қауіпсіздік белдігін тағады","Жүргізу кезінде ұялы телефон қолдануға және жылдамдықты асыруға тыйым салынады","Жүргізуші сергек, сау және шаршамаған болуы тиіс"] },
+  { t:"Жұмысқа рұқсат (наряд-допуск)", p:["Қауіпті жұмыстар тек жарамды рұқсатпен орындалады","Рұқсаттың талаптарын түсініп, орындаңыз","Жағдай өзгерсе — жаңа рұқсат алынады"] },
+  { t:"Энергия көздерін оқшаулау", p:["Жұмыс алдында барлық қауіпті энергия көздерін оқшаулап, құлыптаңыз","Оқшаулау нүктелеріне ескерту белгілерін іліңіз","Қалдық энергияның жоқтығына көз жеткізіңіз"] },
+  { t:"Шектеулі кеңістіктегі жұмыс", p:["Кіру алдында рұқсат алыңыз","Газ талдауын жүргізіп, нәтижесін рұқсатқа жазыңыз","Ішкі жұмысшымен үздіксіз байланыс сақталады, кіру бақыланады"] },
+  { t:"Биіктікте жұмыс істеу", p:["Қорғалған аймақтан тыс жұмысқа рұқсат алыңыз","1,3 м-ден жоғары құлау қаупі болса — құлаудан қорғау құралы міндетті","Сақтандыру белдігін қолданар алдында тексеріңіз және үнемі бекітіп жүріңіз"] },
+  { t:"Қозғалыстағы және қуаттағы жабдық", p:["Қауіпті аймаққа кірмеңіз, қауіпсіз қашықтық сақтаңыз","Сигналшының нұсқауын орындаңыз, жүргізуші сізді көретініне көз жеткізіңіз","Қоршау, белгі және жоғары көрінетін киім қолданылады"] },
+  { t:"Жүк көтеру операциялары", p:["Құзыретті адам тәуекелді бағалап, көтеру әдісін анықтайды","Оператор мен строп байлаушы оқытылған және аттестатталған болуы тиіс","Жабдық тексерілген, жүк көтергіштігінен аспайды, аймақ қоршалады"] }
+];
+
+/* ---------- ТБ ақпарат мәтіні ---------- */
+const ICON = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F26A10" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">';
+const INFO = [
+  { i:ICON+'<path d="M12 2l8 3v6c0 5-3.5 9.3-8 11-4.5-1.7-8-6-8-11V5l8-3z"/></svg>', t:"Жеке қорғаныс құралдары (ЖҚҚ)", p:["Каска, арнайы киім, аяқ киім, қолғап, көзілдірік — міндетті","Жұмыс алдында ЖҚҚ-ның бүтіндігін тексеріңіз","Ақауы бар құралды дереу ауыстырыңыз"] },
+  { i:ICON+'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v4h6V3M9 12h6M9 16h4"/></svg>', t:"Жұмыс алдындағы тексеріс", p:["Тәуекелдерді бағалаңыз (қауіптерді анықтаңыз)","Нұсқаулықтан (инструктаж) өтіңіз","Құрал-жабдықтың жарамдылығын тексеріңіз"] },
+  { i:ICON+'<circle cx="12" cy="12" r="9"/><path d="M8 8l8 8"/></svg>', t:"Жұмысты тоқтату құқығы (STOP)", p:["Қауіпті жағдайды көрсеңіз — жұмысты тоқтатуға құқығыңыз бар","Бұл үшін ешкім жазаланбайды","Қауіп жойылғаннан кейін ғана жұмысты жалғастырыңыз"] },
+  { i:ICON+'<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>', t:"Қауіпті жағдай туралы хабарлау", p:["Оқиғаға жақын жағдайларды (near miss) міндетті түрде хабарлаңыз","Тікелей басшыңызға және ЕҚжТҚ қызметіне айтыңыз","Әр хабарлама — болашақ жарақаттың алдын алу"] },
+  { i:ICON+'<path d="M12 2c3 4 6 6.5 6 11a6 6 0 01-12 0c0-4.5 3-7 6-11z"/></svg>', t:"Өрт қауіпсіздігі", p:["Белгіленбеген жерде темекі шегуге тыйым салынады","Өрт сөндіргіштің орнын және қолдану тәсілін біліңіз","Отпен жұмыс тек рұқсат бойынша жүргізіледі"] },
+  { i:ICON+'<path d="M3 12h4l3-8 4 16 3-8h4"/></svg>', t:"Күкіртсутек (H₂S) және газ қаупі", p:["Газ анализаторын үнемі қосулы ұстаңыз","Дабыл болса — жел бағытына перпендикуляр шығыңыз","Жиналу орнына барып, басшыға хабарлаңыз"] },
+  { i:ICON+'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>', t:"Төтенше жағдайда", p:["Сабыр сақтаңыз, эвакуация жоспарын орындаңыз","Жиналу пунктіне барыңыз","Зардап шеккенге алғашқы көмек көрсетіп, 112-ге хабарласыңыз"] },
+  { i:ICON+'<path d="M5 17h14M7 17V9l5-4 5 4v8"/><circle cx="8" cy="19" r="1.5"/><circle cx="16" cy="19" r="1.5"/></svg>', t:"Аумақтағы қозғалыс", p:["Тек белгіленген жолдармен жүріңіз","Кері жүріп келе жатқан техникаға жақындамаңыз","Кешкі уақытта шағылыстырғыш элементтері бар киім киіңіз"] }
+];
+
+/* ================= ЛОГИКА ================= */
+const MONTHS = ["қаңтар","ақпан","наурыз","сәуір","мамыр","маусым","шілде","тамыз","қыркүйек","қазан","қараша","желтоқсан"];
+const fmt = n => n.toLocaleString("ru-RU");
+function parseDay(s){ const [y,m,d]=s.split("-").map(Number); return Date.UTC(y,m-1,d); }
+function todayUTC(){ const t=new Date(); return Date.UTC(t.getFullYear(),t.getMonth(),t.getDate()); }
+function kzDate(ms){ const d=new Date(ms); return d.getUTCDate()+" "+MONTHS[d.getUTCMonth()]+" "+d.getUTCFullYear()+" ж."; }
+function daysSince(s){ return Math.max(0, Math.round((todayUTC()-parseDay(s))/86400000)); }
+
+function renderRating(){
+  const list = SHOPS.map(s=>({...s, days:daysSince(s.lastIncident)})).sort((a,b)=>b.days-a.days);
+  const leader = list[0];
+  const sum = list.reduce((a,s)=>a+s.days,0);
+  const lp = Math.min(100, leader.days/GOAL_DAYS*100);
+  document.getElementById("bLeader").textContent = leader.name.replace("ЦЕХ ","№").replace("№№","№");
+  document.getElementById("bLeaderNum").textContent = fmt(leader.days);
+  document.getElementById("bGoal").textContent = fmt(GOAL_DAYS);
+  document.getElementById("sAvg").textContent = fmt(Math.round(sum/list.length));
+  document.getElementById("sSum").textContent = fmt(sum);
+  document.getElementById("sLeft").textContent = leader.days>=GOAL_DAYS ? "0" : fmt(GOAL_DAYS-leader.days);
+  document.getElementById("ringPct").textContent = lp.toFixed(0)+"%";
+  document.getElementById("ring").style.background = `conic-gradient(var(--orange) ${lp}%, #F7E7DA 0)`;
+  document.getElementById("updated").textContent = "Бүгін: " + kzDate(todayUTC());
+
+  document.getElementById("league").innerHTML = list.map((s,i)=>{
+    const pct = Math.min(100, s.days/GOAL_DAYS*100);
+    return `<div class="lrow ${i<3?'top':''}" title="1000 күнге дейін: ${pct.toFixed(0)}%">
+      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+      <div><div class="lname"><b>${s.name}</b><small>${s.desc||""}</small></div>
+        <div class="progress"><i style="width:${pct}%"></i></div></div>
+      <div class="dcount">${fmt(s.days)}<small>күн</small></div>
+    </div>`;
+  }).join("");
+}
+
+function renderMemos(){
+  const q = document.getElementById("mSearch").value.trim().toLowerCase();
+  const cat = document.getElementById("mCat").value;
+  const yr = document.getElementById("mYear").value;
+  const sorted = [...MEMOS].sort((a,b)=>parseDay(b.date)-parseDay(a.date));
+  const items = sorted.filter(m=>
+    (!q || (m.title+" "+m.num+" "+m.summary).toLowerCase().includes(q)) &&
+    (!cat || m.category===cat) && (!yr || m.date.startsWith(yr)));
+  const box = document.getElementById("memos");
+  if(!items.length){ box.innerHTML = '<div class="card empty" style="grid-column:1/-1">Ештеңе табылмады</div>'; return; }
+  box.innerHTML = items.map(m=>{
+    const fresh = (todayUTC()-parseDay(m.date))/86400000 <= 14;
+    return `<article class="card memo">
+      ${fresh?'<span class="new">ЖАҢА</span>':''}
+      <div class="top"><span class="num">№ ${m.num}</span><span class="date">${kzDate(parseDay(m.date))}</span></div>
+      <span class="tag">${m.category}</span>
+      <h3>${m.title}</h3>
+      <p>${m.summary}</p>
+      ${m.file ? `<a class="btn" href="${m.file}" target="_blank" rel="noopener">📄 Құжатты ашу</a>` : `<span class="btn disabled">Файл тіркелмеген</span>`}
+    </article>`;
+  }).join("");
+}
+
+function initMemoFilters(){
+  const cats=[...new Set(MEMOS.map(m=>m.category))], yrs=[...new Set(MEMOS.map(m=>m.date.slice(0,4)))].sort().reverse();
+  document.getElementById("mCat").innerHTML += cats.map(c=>`<option>${c}</option>`).join("");
+  document.getElementById("mYear").innerHTML += yrs.map(y=>`<option>${y}</option>`).join("");
+  ["mSearch","mCat","mYear"].forEach(id=>document.getElementById(id).addEventListener("input",renderMemos));
+}
+
+function renderStatic(){
+  document.getElementById("rulesList").innerHTML = RULES.map((r,i)=>`
+    <div class="card rule"><div class="n">${i+1}</div><div><h3>${r.t}</h3><ul>${r.p.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`).join("");
+  document.getElementById("infoList").innerHTML = INFO.map(c=>`
+    <div class="card info"><div class="ic">${c.i}</div><h3>${c.t}</h3><ul>${c.p.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
+  document.getElementById("yr").textContent = new Date().getFullYear();
+}
+
+/* ---------- Беттер арасында ауысу ---------- */
+function route(){
+  const id = (location.hash||"#rating").slice(1);
+  const valid = ["rating","memo","rules","info"].includes(id) ? id : "rating";
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("show", p.id==="page-"+valid));
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("active", a.getAttribute("href")==="#"+valid));
+  document.querySelector("nav").classList.remove("open");
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route);
+
+/* ---------- Іске қосу ---------- */
+renderStatic(); initMemoFilters(); renderMemos(); renderRating(); route();
+/* Сайт ашық тұрса да, түн ортасында күндер өздігінен жаңарады */
+let lastDay = todayUTC();
+setInterval(()=>{ if(todayUTC()!==lastDay){ lastDay=todayUTC(); renderRating(); renderMemos(); } }, 60000);
+</script>
+</body>
+</html>
